@@ -1,0 +1,42 @@
+{
+  "sql_import": "passed; isolated schema removed after test",
+  "tables": 5,
+  "checks": [
+    {
+      "path": "/PTGenAI.html",
+      "status": 200,
+      "bytes": 1382
+    },
+    {
+      "path": "/programming/user/table",
+      "status": 200,
+      "bytes": 1467
+    },
+    {
+      "path": "/programming/person/table",
+      "status": 200,
+      "bytes": 10395
+    },
+    {
+      "path": "/programming/person/pills",
+      "status": 200,
+      "bytes": 3291
+    },
+    {
+      "path": "/programming/person/piesex",
+      "status": 200,
+      "bytes": 1627
+    },
+    {
+      "path": "/programming/employee/cards",
+      "status": 200,
+      "bytes": 26970
+    },
+    {
+      "path": "/programming/position/descending",
+      "status": 200,
+      "bytes": 4505
+    }
+  ],
+  "llm_request_sent": false
+}

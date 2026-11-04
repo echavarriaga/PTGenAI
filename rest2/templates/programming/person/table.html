@@ -1,0 +1,138 @@
+<div class="container py-3">
+  <header>
+    <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+      <a href="" class="d-flex align-items-center link-body-emphasis text-decoration-none" onclick="PRHO.openPage('page-main')">
+        <a href="" class="d-flex align-items-center link-body-emphasis text-decoration-none" >
+        <div class="p-1" onclick=""><i class="fa-solid fa-chess-rook fa-2x text-secondary"></i></div>
+        <span class="ms-2 fs-4 text-secondary fw-semibold">Portable Programming</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="sticky-top h3 bg-white p-3"><center><b>Persons Edit List</b></center></div>
+  <div class="">
+    <button type="button" class="btn text-bg-secondary py-1" data-bs-toggle="modal" data-bs-target="#newPersonModal" data-bs-whatever="@mdo">Add Person</button>
+  </div>
+  <table class="table table-striped table-sm mt-3">
+    <thead>
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Age</th>
+        <th scope="col">Sex</th>
+        <th width="60"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each Rows}}
+      <tr>
+        <th scope="row">{{this.NAME}}</th>
+        <td>{{this.SURNAME}}</td>
+        <td>{{this.AGE}}</td>
+        <td>{{#xif 'this.SEX == "F"'}}Female{{else}}Male{{/xif}}</td>
+        <td class="center"> 
+          <i class="fa-solid fa-user-pen mr-2 c-pointer" onclick="editModalPerson('{{this.ID}}');"></i> 
+          <i class="fa-solid fa-trash c-pointer" onclick="deleteModalPerson('{{this.ID}}');"></i>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <div id="newPersonModal" class="modal fade" tabindex="-1" aria-labelledby="newPersonLabel">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newPersonLabel">Personal Information</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="form-new-person" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="newPersonName" class="col-form-label">First Name:</label>
+              <input id="newPersonName" type="text" class="form-control" required>
+              <div class="invalid-feedback">Please enter a First Name.</div>
+            </div>
+            <div class="mb-3">
+              <label for="newPersonSurname" class="col-form-label">Last Name:</label>
+              <input id="newPersonSurname" type="text" class="form-control" required>
+              <div class="invalid-feedback">Please enter a Last Name.</div>
+            </div>
+            <div class="row align-items-start">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="newPersonAge" class="col-form-label">Age:</label>
+                  <input id="newPersonAge" type="number" class="form-control" min="0" max="100" step="1"  value="{{this.AGE}}">
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="newPersonSex" class="col-form-label">Sex:</label>
+                  <select id="newPersonSex" class="form-select" aria-label=".form-select-sm example" value="{{this.SEX}}">
+                    <option value="F" {{#xif 'this.SEX == "F"'}}selected{{/xif}}>Female</option>
+                    <option value="M" {{#xif 'this.SEX == "M"'}}selected{{/xif}}>Male</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer text-gray">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="newPerson();">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="containerPerson"></div>
+</div>
+
+
+<!-- Validation for JavaScript -->
+<script>
+  function newPerson() {
+    // We get the form to which we want to apply Bootstrap validation
+    let form = document.querySelector('#form-new-person');
+    form.classList.add('was-validated'); // Avoid the spread event
+    if (form.checkValidity()) {
+      let person = {NAME: $("#newPersonName").val(), SURNAME: $("#newPersonSurname").val(), AGE: parseInt($("#newPersonAge").val()), SEX: $("#newPersonSex").val()};
+      let done = (data, page) => {
+        $("body>div.modal-backdrop.show").remove();
+        PRHO.openPage('persons');
+      }
+      REST.post("/sample/person", done, null, person);
+    }
+    return false;
+  }
+  function deleteModalPerson(key) {
+    let showModal = (data) => {
+      $('#containerPerson').empty().append( data );
+      var deleteModal = new bootstrap.Modal(document.getElementById('deletePersonModal'), { keyboard: false });
+      deleteModal.show();
+    };
+    REST.get(`/sample/person/edit`, showModal, null, {key: key});
+  }
+  function editModalPerson(key) {
+    let showModal = (data) => {
+      $('#containerPerson').empty().append( data );
+      var editModal = new bootstrap.Modal(document.getElementById('editPersonModal'), { keyboard: false });
+      editModal.show();
+    };
+    REST.get(`/sample/person/edit`, showModal, null, {key: key});
+  }
+  function savePerson(key) {
+    // We get the form to which we want to apply Bootstrap validation
+    let form = document.querySelector('#form-edit-person');
+    form.classList.add('was-validated'); // Avoid the spread event
+    if (form.checkValidity()) {
+      let person = {NAME: $("#editPersonName").val(), SURNAME: $("#editPersonSurname").val(), AGE: parseInt($("#editPersonAge").val()), SEX: $("#editPersonSex").val()};
+      let done = (data, page) => {
+        $("body>div.modal-backdrop.show").remove();
+        PRHO.openPage('persons');
+      }
+      REST.put(`/sample/person/${key}`, done, null, person);
+    }
+    return false;
+  }
+</script>

@@ -1,0 +1,158 @@
+
+<div id="moduleChat">
+  
+
+<!-- Modal Configuration -->
+<div class="modal fade" id="configurationModal" tabindex="-1" aria-labelledby="configurationModalLabel">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="configurationModalLabel"><i class="fa-solid fa-user-gear fa-lg me-2"></i> Configuration Gen AI</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Pestañas -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a id="basicTab" class="nav-link active" data-bs-toggle="tab" href="#basicPanel" role="tab" aria-controls="basicPanel" aria-selected="true">Basic</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a id="promptTab" class="nav-link" data-bs-toggle="tab" href="#promptPanel" role="tab" aria-controls="promptPanel" aria-selected="false">Prompt</a>
+          </li>
+        </ul>
+
+        <!-- Contenido de las Pestañas -->
+        <div class="tab-content py-3" id="myTabContent">
+          <!-- Primer Tab: Usuario y Contraseña -->
+          <div class="tab-pane fade show active" id="basicPanel" role="tabpanel" aria-labelledby="basicTab">
+            <div class="form-floating mb-3">
+              <input id="aliasControlInput" type="text" class="form-control" placeholder="Name">
+              <label for="aliasControlInput" class="form-label">Alias / Rol</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input id="viewControlInput" type="text" class="form-control" placeholder="Name">
+              <label for="viewControlInput" class="form-label">View</label>
+            </div>
+            <div class="form-check">
+              <input  id="viewControlChecked" class="form-check-input" type="checkbox">
+              <label class="form-check-label" for="checkChecked">Set application view</label>
+            </div>
+          </div>
+
+          <!-- Segundo Tab: Descripción -->
+          <div class="tab-pane fade" id="promptPanel" role="tabpanel" aria-labelledby="promptTab">
+            <div class="mb-3">
+              <label for="promptControlTextarea" class="form-label">Prompt transformation templates</label>
+              <textarea id="promptControlTextarea" class="form-control" rows="15"></textarea>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="CHAT.ConfigurationSave()">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  //* Reference to configuration modal 
+  CHAT.ConfigurationModal = new bootstrap.Modal('#configurationModal', {});
+  //* Open configuration modal
+  CHAT.ConfigurationView = function() { 
+    const alias = PRHO.CONTEXT['user']['Alias'], view = PRHO.CONTEXT['user']['View'];
+    $("#aliasControlInput").val(alias);
+    $("#viewControlInput").val(view);
+    $("#viewControlChecked")[view ? "prop" : "removeProp"]();
+    const prompt = REST.getFile("/sample/getFile", function(prompt) {
+      $("#promptControlTextarea").val(prompt);
+      CHAT.OldPrompt = prompt;
+    }, {user: alias, dir: "/prompt/web", file: "programming.txt"});
+    this.ConfigurationModal.show();
+  };
+  CHAT.ConfigurationSave = function() { 
+    const alias = $("#aliasControlInput").val(), view = $("#viewControlInput").val();
+    PRHO.CONTEXT['user']['Alias'] = alias;
+    PRHO.CONTEXT['user']['View'] = view;
+    if (view) HANDLER.View = view;
+    //Guardar fichero prompt de entrenamiento
+    const prompt = $("#promptControlTextarea").val();
+    if (CHAT.OldPrompt != prompt)
+      REST.getFile("/sample/getFile", function(prompt) {
+        MESSAGE.info(`With the Prompt change, all users' history is deleted.`);
+      }, {user: alias, dir: "/prompt/web", file: "programming.txt", action: "save", "llm": "Programming", "body": prompt});
+    this.ConfigurationModal.hide();
+    PRHO.started();
+  };
+</script>
+
+<!-- Floating Button -->
+<button class="btn btn-dark  position-fixed bottom-0 end-0 m-2 rounded-circle p-2 shadow" type="button"
+        data-bs-toggle="offcanvas" data-bs-target="#offcanvasChat" aria-controls="offcanvasChat" onclick="CHAT.start();">
+  <i class="fa-solid fa-robot fa-lg"></i>
+</button>
+
+<div id="userChat" class="mx-1 mt-3 d-none">
+  <div class="text-start"><i class="fa-solid fa-user"></i> User</div>
+  <textarea class="form-control" rows="2"></textarea>
+</div>
+
+<div id="userView" class="mx-1 d-none">
+  <div class="text-start d-flex justify-content-between">
+    <span><i class="fa-solid fa-user"></i> User</span>
+    <small class="datetime mt-1 text-grey"></small>
+  </div>
+  <div class="content border-top py-1"></div>
+</div>
+
+<div id="robotView" class="mx-1 mb-2 d-none">
+  <div class="text-start d-flex justify-content-between pt-1">
+    <small class="mt-1 text-grey"><b>Action</b>: <span class="action"></span>. <b>Timestamp</b>: <span class="timestamp"></span> seg.</small>
+    <span><i class="fa-solid fa-robot"></i> Robot</span>
+  </div>
+</div>
+
+<!-- Offcanvas -->
+<div id="offcanvasChat" class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasChatLabel" style="min-width: 420px;">
+  <div class="offcanvas-header py-2 border-bottom">
+    <h5 id="offcanvasChatLabel" class="offcanvas-title">{{Title}}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div id="body-chat-rho">
+    </div>
+    <div class="text-center py-2">
+      <button type="button" class="btn btn-success py-0" onclick="setTimeout(() => CHAT.completion(),200)" 
+              data-bs-dismiss="offcanvas" aria-label="Send">Send</button>
+      <button type="button" class="btn btn-warning py-0" onclick="setTimeout(() => CHAT.reset(),200)" 
+              data-bs-dismiss="offcanvas" aria-label="Reset">Reset</button>
+      <div class="dropup-center dropup d-inline-block" style="min-width: 240px;">
+        <button class="btn btn-secondary dropdown-toggle py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Options
+        </button>
+        <div class="dropdown-menu dropdown-menu-end px-2 text-center">
+          <label>View</label>
+          <input id="nameView" type="text" class="form-control-sm mb-2 w-100" placeholder="Name view">
+          <button type="button" class="btn btn-outline-dark py-0 px-1 btn-sm" onclick="setTimeout(() => CHAT.append(document.getElementById('nameView').value),200)" 
+            data-bs-dismiss="offcanvas" aria-label="Save"><i class="fa-solid fa-square-plus"></i> Append</button>
+          <button type="button" class="btn btn-outline-dark py-0 px-1 btn-sm" onclick="setTimeout(() => CHAT.save(document.getElementById('nameView').value),200)" 
+            data-bs-dismiss="offcanvas" aria-label="Save"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+          <button type="button" class="btn btn-outline-dark py-0 px-1 btn-sm" onclick="setTimeout(() => CHAT.change(document.getElementById('nameView').value),200)" 
+            data-bs-dismiss="offcanvas" aria-label="Change"><i class="fa-solid fa-arrows-to-eye"></i> Change</button>
+          <li><hr class="dropdown-divider"></li>
+          <li class="text-start">
+            <a class="dropdown-item ps-2 py-0" href="#" onclick="setTimeout(() => CHAT.edit(),200)""> <i class="fa-solid fa-file-pen me-2"></i>Edit view active</a>
+          </li>
+          <li class="text-start">
+            <a class="dropdown-item ps-2 py-0" href="#" onclick="setTimeout(() => CHAT.cleanItems(),200)""> <i class="fa-solid fa-trash-can me-2"></i> Clear history chat</a>
+          </li>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>

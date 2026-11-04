@@ -1,0 +1,27 @@
+<div class="container py-3">
+   <header>
+      <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+         <a href="" class="d-flex align-items-center link-body-emphasis text-decoration-none" onclick="PRHO.openPage('page-main')">
+           <a href="" class="d-flex align-items-center link-body-emphasis text-decoration-none" >
+           <div class="p-1" onclick=""><i class="fa-solid fa-chess-rook fa-2x text-secondary"></i></div>
+           <span class="ms-2 fs-4 text-secondary fw-semibold">Portable Programming</span>
+         </a>
+       </div>
+   </header>
+ 
+   <div class="sticky-top h3 bg-white p-3"><center><b>Persons Pills</b></center></div>
+   <div>
+      {{#each Rows}}
+      <span class="badge rounded-pill {{#xif 'this.AGE <=18'}}bg-info{{else}}{{#xif 'this.AGE <=60'}}bg-success{{else}}
+                   bg-warning text-dark{{/xif}}{{/xif}} mr-2 my-1 px-2">
+         {{#xif 'this.SEX == "F"'}}<i class="fa-solid fa-child-dress fa-lg"></i>
+         {{else}}<i class="fa-solid fa-child-reaching fa-lg"></i>{{/xif}}  
+         {{this.SURNAME}}, {{this.NAME}} 
+      </span>
+      {{/each}}   
+      <hr>
+      <div><i class="fa-solid fa-circle-user text-info"></i>Minors (under 18 years of age).</div>
+      <div><i class="fa-solid fa-circle-user text-success"></i>Adults (between 18 and 60 years old).</div>
+      <div><i class="fa-solid fa-circle-user text-warning"></i>Seniors (over 60 years old).</div>
+   </div>
+</div>

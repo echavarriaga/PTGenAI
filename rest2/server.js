@@ -1,0 +1,13 @@
+"use strict";
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+process.chdir(__dirname);
+const app = express();
+const RestRho = require("./RestRho2.js");
+const port = Number(process.env.REST_PORT || 3000);
+app.use(express.json());
+app.use(cors({origin: ["http://localhost:8090", "http://127.0.0.1:8090"]}));
+app.get("/sample/log", (req, res) => res.sendFile(path.join(__dirname, "logs.log")));
+RestRho.started(app);
+app.listen(port, "127.0.0.1", () => console.log(`RestRho: http://localhost:${port}`));

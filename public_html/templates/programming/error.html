@@ -1,0 +1,65 @@
+<div id="moduleError">
+  
+<div id="errorModal" class="modal fade" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-danger">
+        <h1 id="errorModalLabel" class="modal-title fs-5"><i class="fa-solid fa-bomb fa-lg me-2"></i> Error message</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div id="errorModalBody" class="modal-body"> </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger my-1" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="infoModal" class="modal fade" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-info">   
+        <h1 id="infoModalLabel" class="modal-title fs-5"><i class="fa-solid fa-circle-info fa-lg me-2"></i> Information </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div id="infoModalBody" class="modal-body"> </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info my-1" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Spinner container que ocupa toda la pantalla -->
+<style>
+  .spinner-container { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.8);
+    display: flex; align-items: center; justify-content: center; z-index: 9999;
+  }
+</style> 
+<div class="spinner-container d-none">
+  <div class="spinner-border text-gray" role="status">
+    <span class="visually-hidden">Cargando...</span>
+  </div>
+</div>
+
+<script>
+  //* Object MESSAGE: Definitions Properties   
+  MESSAGE.ErrorModal = new bootstrap.Modal('#errorModal', {});
+  //error: Show error toast.
+  MESSAGE.error = function(message){
+    $("#errorModalBody").empty().append(message);
+    this.ErrorModal.show();
+    MESSAGE.spinner(false);
+  };
+  //* Object MESSAGE: Definitions Properties   
+  MESSAGE.InfoModal = new bootstrap.Modal('#infoModal', {});
+  //error: Show error toast.
+  MESSAGE.info = function(message){
+    $("#infoModalBody").empty().append(message);
+    this.InfoModal.show();
+    MESSAGE.spinner(false);
+  };
+</script>
+
+</div>

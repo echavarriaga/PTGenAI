@@ -1,0 +1,69 @@
+{
+  "PathTemplate": "templates",
+  "Started": { "Container": "#main-app", "Page": "main" },
+  
+  "Templates": {},
+  
+  "Pages": {
+    "main": { 
+      "Template": false, "Replace": "yes", 
+      "Context": { 
+        "Method": "post", "Action": "/sample/getTemplate", 
+        "Info": {"NameTemplate": "programming.main", "dir": "/programming", "file": "main.html", "Prompt": "Programming"}, 
+        "Config": {"Title": "Portable Testing GenAI Rho"} 
+      }, 
+      "Chat": {"Title": "Main Chat"} 
+    },
+    
+    "users": { 
+      "Template": false, "Container": "#main-app", "Replace": "yes", 
+      "Context": {"Action": "/programming/user/table", "Key": "Users"}, 
+      "Chat": {"Title": "Users Table"} 
+    },
+    "sign-in": { 
+      "Template": false, "Container": "#main-app", "Replace": "yes", "Next": "main", 
+      "Context": { 
+        "Method": "post", "Action": "/sample/getTemplate", 
+        "Info": {"NameTemplate": "programming.signin", "dir": "/programming", "file": "sign-in.html", "Prompt": "Programming"} 
+      },
+      "Chat": {"Title": "Sign In"} 
+    },
+        
+    "persons": { 
+      "Template": false, "Container": "#main-app", "Replace": "yes", 
+      "Context": {"Action": "/programming/person/table", "Key": "Persons"}, 
+      "Chat": {"Title": "Persons Edit Table"} 
+    },
+    "persons-pills": { 
+      "Template": false, "Container": "#main-app", "Replace": "yes", 
+      "Context": {"Action": "/programming/person/pills", "Key": "PersonsPills"}, 
+      "Chat": {"Title": "Persons Pills"} 
+    },
+    "persons-stat": { 
+      "Template": false, "Container": "#main-app", "Replace": "yes", 
+      "Context": {"Action": "/programming/person/piesex", "Key": "PersonsPieSex"}, 
+      "Chat": {"Title": "Persons Pills"} 
+    },
+    
+    "employee-cards": { 
+      "Template": false, "Replace": "yes", "Container": "#main-app", 
+      "Context": {"Action": "/programming/employee/cards", "Key": "EmployeeCards"}, 
+      "Chat": {"Title": "Employee Cards"} 
+    },
+    "positions": { 
+      "Template": false, "Replace": "yes", "Container": "#main-app", 
+      "Context": {"Action": "/programming/position/descending", "Key": "Positions"}, 
+      "Chat": {"Title": "Position Chat"} 
+    }
+  },
+  
+  "Fragments": {
+    "header": { 
+      "Replace": "yes",
+      "Context": {
+        "Method": "post", "Action": "/sample/getTemplate", 
+        "Info": {"NameTemplate": "programming.header", "dir": "/programming", "file": "header.html"} 
+      } 
+    }
+  }
+}

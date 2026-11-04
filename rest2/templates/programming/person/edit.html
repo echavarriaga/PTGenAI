@@ -1,0 +1,61 @@
+<div id="editPersonModal" class="modal fade" tabindex="-1" aria-labelledby="editPersonLabel">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editPersonLabel">Person Edit</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="form-edit-person" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="editPersonName" class="col-form-label">First Name:</label>
+            <input id="editPersonName" type="text" class="form-control" value="{{this.NAME}}">
+          </div>
+          <div class="mb-3">
+            <label for="editPersonSurname" class="col-form-label">Last Name:</label>
+            <input id="editPersonSurname" type="text" class="form-control" value="{{this.SURNAME}}">
+          </div>
+          <div class="row align-items-start">
+            <div class="col">
+              <div class="mb-3">
+                <label for="editPersonAge" class="col-form-label">Age:</label>
+                <input id="editPersonAge" type="number" class="form-control" min="0" max="100" step="1"  value="{{this.AGE}}">
+              </div>
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                <label for="editPersonSex" class="col-form-label">Age:</label>
+                <select id="editPersonSex" class="form-select" aria-label=".form-select-sm example" value="{{this.SEX}}">
+                  <option value="F" {{#xif 'this.SEX == "F"'}}selected{{/xif}}>Female</option>
+                  <option value="M" {{#xif 'this.SEX == "M"'}}selected{{/xif}}>Male</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer text-gray">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="savePerson('{{this.ID}}');">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Validation for JavaScript -->
+<script>
+  function savePerson(key) {
+    // We get the form to which we want to apply Bootstrap validation
+    let form = document.querySelector('#form-edit-person');
+    form.classList.add('was-validated'); // Avoid the spread event
+    if (form.checkValidity()) {
+      let person = {NAME: $("#editPersonName").val(), SURNAME: $("#editPersonSurname").val(), AGE: parseInt($("#editPersonAge").val()), SEX: $("#editPersonSex").val()};
+      let done = (data, page) => {
+        $("body>div.modal-backdrop.show").remove();
+        PRHO.openPage('persons');
+      }
+      REST.put(`/sample/person/${key}`, done, null, person);
+    }
+    return false;
+  }
+</script>

@@ -1,0 +1,20 @@
+<div class="container py-5">
+  <header>
+    <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+      <a href="" class="d-flex align-items-center link-body-emphasis text-decoration-none" onclick="PRHO.openPage('page-main')">
+        <div class="p-1" onclick=""><i class="fa-solid fa-chess-rook fa-2x text-secondary"></i></div>
+        <span class="ms-2 fs-4 text-secondary fw-semibold">Portable Programming</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="sticky-top h3 bg-white p-3"><center><b>Positions List</b></center></div>
+  <ul class="list-group">
+    {{#each Rows}}
+    <li class="list-group-item d-flex align-items-center">
+      <i class="{{this.ICON}} me-2"></i>
+      <span>{{this.NAME}}</span>
+    </li>
+    {{/each}}
+  </ul>
+</div>

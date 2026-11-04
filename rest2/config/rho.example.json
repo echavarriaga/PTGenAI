@@ -1,0 +1,118 @@
+{
+  "Name": "sample",
+  "Description": "It implements the basic operations for managing one or more databases.",
+  "Databases": [
+    "programming.mariadb.json"
+  ],
+  "Definitions": {
+    "Insert": {
+      "Method": "post",
+      "Path": "/{{db}}/{{table}}",
+      "SQL": "INSERT INTO {{Table}} ({{Fields}}) VALUES ({{{Values}}})",
+      "Clauses": {
+        "Fields": "*",
+        "Values": "*"
+      }
+    },
+    "Update": {
+      "Method": "put",
+      "Path": "/{{db}}/{{table}}/:key",
+      "SQL": "UPDATE {{Table}} SET {{{Fields}}} WHERE {{key}}=:key",
+      "Clauses": {
+        "Fields": "*"
+      },
+      "Parameters": {
+        "params": [
+          "key"
+        ]
+      }
+    },
+    "Delete": {
+      "Method": "delete",
+      "Path": "/{{db}}/{{table}}/:key",
+      "SQL": "DELETE FROM {{Table}} WHERE {{key}}=:key",
+      "Parameters": {
+        "params": [
+          "key"
+        ]
+      }
+    },
+    "SelectAll": {
+      "Method": "get",
+      "Path": "/{{db}}/{{table}}/all",
+      "SQL": "SELECT {{Fields}} FROM {{Table}}",
+      "Clauses": {
+        "Fields": "*"
+      }
+    },
+    "SelectWhere": {
+      "Method": "get",
+      "Path": "/{{db}}/{{table}}/where",
+      "SQL": "SELECT{{Distinct}} {{Fields}} FROM {{Table}} {{{Join}}} {{{InnerJoin}}}{{{LeftJoin}}}{{{RightJoin}}}{{{FullJoin}}}{{{Where}}}{{GroupBy}}{{{Having}}}{{OrderBy}}{{Limit}}",
+      "Clauses": {
+        "Fields": "*"
+      }
+    },
+    "SelectBasicAction": {
+      "Method": "get",
+      "Path": "/{{db}}/{{table}}/{{action}}",
+      "SQL": "SELECT{{Distinct}} {{Fields}} FROM {{Table}} {{{Where}}}{{GroupBy}}{{{Having}}}{{OrderBy}}",
+      "Clauses": {
+        "Fields": "*"
+      }
+    },
+    "SelectAction": {
+      "Method": "get",
+      "Path": "/{{db}}/{{table}}/{{action}}",
+      "SQL": "SELECT{{Distinct}} {{Fields}} FROM {{Table}} {{{Join}}} {{{InnerJoin}}}{{{LeftJoin}}}{{{RightJoin}}}{{{FullJoin}}}{{{Where}}}{{GroupBy}}{{{Having}}}{{OrderBy}}{{Limit}}",
+      "Clauses": {
+        "Fields": "*"
+      }
+    },
+    "Select": {
+      "Method": "get",
+      "Path": "/{{db}}/{{table}}/:key",
+      "SQL": "SELECT {{Fields}} FROM {{Table}} WHERE {{key}}=:key",
+      "Clauses": {
+        "Fields": "*"
+      },
+      "Parameters": {
+        "params": [
+          "key"
+        ]
+      }
+    }
+  },
+  "Chats": {
+    "OpenAI": {
+      "Api": "openia",
+      "ApiKey": "YOUR_OPENAI_API_KEY",
+      "Body": {
+        "model": "gpt-4"
+      }
+    }
+  },
+  "LLMs": {
+    "Programming": {
+      "Method": "get",
+      "Path": "/programming",
+      "History": true,
+      "UseMarked": true,
+      "Chat": "OpenAI",
+      "Config": {
+        "model": "gpt-5.1"
+      },
+      "Prompt": "The user requires the following changes to be made: {message}. \n\n The changes must be applied to the template enclosed in ```: \n\n ```{template}``` \n\n The response should not be enclosed in ```.",
+      "Messages": [
+        {
+          "role": "system",
+          "file": "web/programming.txt"
+        }
+      ]
+    }
+  },
+  "LLM": "Templates",
+  "Template": {
+    "Name": "system_template"
+  }
+}

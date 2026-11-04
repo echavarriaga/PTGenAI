@@ -1,0 +1,145 @@
+<div class="container py-3">
+
+  <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <h2 class="fs-sm-5 fs-md-3 fs-lg-2 fw-normal text-body-emphasis">{{Title}}</h2>
+    <p class="fs-sm-6 fs-md-4 fs-lg-3 text-body-secondary">
+      This page has been designed to provide a testing and evaluation environment for <strong>PortableRho</strong>, a domain-specific language 
+      (<strong>DSL</strong>) based on <strong>JSON</strong> and integrated with the <strong>REST</strong> architecture of <strong>RestRho</strong>. 
+      <strong>PortableRho</strong> allows modeling and defining <strong>RESTful</strong> interfaces in a flexible and scalable way, offering an agile 
+      mechanism for the communication and orchestration of distributed services.  
+      One of its most notable features is the dynamic transformation of templates using <strong>Generative Artificial Intelligence</strong>, 
+      which enables the adaptation and modification of <strong>Handlebars</strong> templates in an automated and intelligent manner. This capability 
+      facilitates real-time customization of responses and data structures, thus optimizing the development of data-oriented services and enhancing the 
+      integration experience in distributed environments.
+    </p>
+    <button type="button" class="btn btn-link" onclick="CHAT.ConfigurationView()">View Configuration</button>
+  </div>
+
+  <main>
+
+    <div class="container px-1 pb-4">
+      <h3 class="pb-1 border-bottom">Table: <b>User</b></h3>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-3">
+
+        <div class="col d-flex align-items-start">
+          <div class="text-body-secondary flex-shrink-0 me-3" onclick="PRHO.openPage('users')">
+            <i class="fa-solid fa-users-gear fa-2x"></i>
+          </div>
+          <div>
+            <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Users List</h4>
+            <p class="mb-2">Obtain the system users registered in the database.</p>
+            <button type="button" class="btn text-bg-secondary py-0 px-3" onclick="PRHO.openPage('users')"><small>Go</small></button>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <div class="text-body-secondary flex-shrink-0 me-3" onclick="PRHO.openPage('sign-in')">
+            <i class="fa-solid fa-key fa-2x"></i>
+          </div>
+          <div>
+            <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Sign-in</h4>
+            <p class="mb-2">To enter a <b>RestRho</b> based system, you must obtain a Token that is assigned to the user to make any requests to the server.</p>
+            <button type="button" class="btn text-bg-secondary py-0 px-3" onclick="PRHO.openPage('sign-in')"><small>Go</small></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    
+    <div class="container px-1 pb-4">
+      <h3 class="pb-1 border-bottom fs-sm-5 fs-md-3 fs-lg-2">Table: <b>Person</b></h3>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-3">
+
+        <div class="col d-flex align-items-start">
+          <div class="text-body-secondary flex-shrink-0 me-3" onclick="PRHO.openPage('persons')">
+            <i class="fa-solid fa-users-between-lines fa-2x"></i>
+          </div>
+          <div>
+            <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Persons Edit</h4>
+            <p class="mb-2">List of people from the company Pepe Grill SL.</p>
+            <button type="button" class="btn text-bg-secondary py-0 px-3" onclick="PRHO.openPage('persons')"><small>Go</small></button>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <div class="text-body-secondary flex-shrink-0 me-3" onclick="PRHO.openPage('persons-pills')">
+            <i class="fa-solid fa-tablets fa-2x"></i>
+          </div>
+          <div>
+            <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Persons Pills</h4>
+            <p class="mb-2">Gets the list of people in pills format.</p>
+            <button type="button" class="btn text-bg-secondary py-0 px-3" onclick="PRHO.openPage('persons-pills')"><small>Go</small></button>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <div class="text-body-secondary flex-shrink-0 me-3" onclick="PRHO.openPage('persons-stat')">
+            <i class="fa-solid fa-chart-pie fa-2x"></i>
+          </div>
+          <div>
+            <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Person Statistics</h4>
+            <p class="mb-2">Gets the list of people in pills format.</p>
+            <button type="button" class="btn text-bg-secondary py-0 px-3" onclick="PRHO.openPage('persons-stat')"><small>Go</small></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="container px-1 pb-4">
+      <h3 class="pb-1 border-bottom fs-sm-5 fs-md-3 fs-lg-2">Table: <b>Employee / Position</b></h3>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-3">
+
+        <div class="col d-flex align-items-start">
+          <div class="text-body-secondary flex-shrink-0 me-3" onclick="PRHO.openPage('employee-cards')">
+            <i class="fa-solid fa-users-between-lines fa-2x"></i>
+          </div>
+          <div>
+            <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Employee Cards</h4>
+            <p class="mb-2">List of employees featured in Cards.</p>
+            <button type="button" class="btn text-bg-secondary py-0 px-3" onclick="PRHO.openPage('employee-cards')"><small>Go</small></button>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <div class="text-body-secondary flex-shrink-0 me-3" onclick="PRHO.openPage('positions')">
+            <i class="fa-solid fa-person-military-pointing fa-2x"></i>
+          </div>
+          <div>
+            <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Positions List</h4>
+            <p class="mb-2">List of existing Positions in the company Pepe Grill SL.</p>
+            <button type="button" class="btn text-bg-secondary py-0 px-3" onclick="PRHO.openPage('positions')"><small>Go</small></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <h2 class="py-2 border-bottom">API RestRho</h2>
+    <p class="fs-sm-6 fs-md-4 fs-lg-3 text-body-secondary">
+      <b>RestRho</b> includes DSL-JSONs named <b>DBRestRho</b> y <b>SQLRho</b> with the aim of dynamically defining and deploying a RESTful API server 
+      (an API designed under the REST web architecture, characterized by functioning with HTTP requests such as GET, POST, PUT, and DELETE). 
+      <b>RESTRho</b> has the ability to transform JSON results and the capacity to apply Handlebars Template Engines (a tool that separates logic 
+      and design in web content generation).
+    </p>
+    
+    <h2 class="pb-2 border-bottom">Frameworks JavaScripts</h2>
+    <p>The <i>JavaScript Frameworks</i> used in the creation of this page are listed below:
+      <ul>
+        <li><a href="https://www.devrho.com/" target="_blank">RhoEngine (v.2.1)</a>:The core of our approach has been implemented in the <b>Rho Execution Engine</b> 
+          (<b>RhoEngine</b> for short). Its goal is to evaluate programs written in customizable JSON-based DSLs (namely, <b>RhoCode</b> or DSL-JSON), and then to run them in the 
+          Rho Interpreter in order to get the result (namely, a <b>RhoObject</b>) in the web-client or the web server.</li>
+        <li><a href="https://handlebarsjs.com//" target="_blank">Handlebars (v.4.7.7)</a>: simple yet flexible JavaScript charting library for the modern web.</li>
+        <li><a href="https://jquery.com/" target="_blank">jQuery (v.3.7.0)</a>: is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers.</li>
+        <li><a href="https://getbootstrap.com/" target="_blank">Bootstrap (v.5.3)</a>: build fast, responsive sites with Bootstrap.</li>
+        <li><a href="https://fontawesome.com/" target="_blank">Font Awesome (v.6.4)</a>: is the Internet's icon library and toolkit, used by millions of designers, developers, and content creators.</li>
+        <li><a href="https://www.chartjs.org/" target="_blank">Chart.js (v.4.3)</a>: minimal templating on steroids. Handlebars provides the power necessary to let you build semantic templates effectively with no frustration.</li>
+      </ul>
+    </p>
+
+  </main>
+
+  <footer class="pt-2 border-top mt-5">
+    <a class="link-secondary text-decoration-none"  onclick="PRHO.openPage('restrho')"><b>RhoEngine</b></a>
+    <br>
+    <small class="d-block mb-3 text-body-secondary">&copy; 2017–2026</small>
+  </footer>
+</div>

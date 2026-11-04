@@ -1,0 +1,29 @@
+{
+  "name": "ptgenai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PTGenAI research artifact: runtime web interface editing with RestRho, RhoPortable and RhoLLM",
+  "scripts": {
+    "start": "node server.js",
+    "start:rest": "node rest2/server.js",
+    "configure": "node scripts/configure.js"
+  },
+  "dependencies": {
+    "express": "4.16.4",
+    "cors": "2.8.5",
+    "json-bigint": "1.0.0",
+    "mariadb": "3.4.0",
+    "mysql": "2.18.1",
+    "handlebars": "4.7.8",
+    "log4js": "6.9.1",
+    "marked": "14.1.4",
+    "openai": "4.77.0",
+    "groq-sdk": "0.15.0",
+    "xmldom": "0.3.0",
+    "ejs": "2.6.2",
+    "hogan.js": "3.0.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,46 @@
+<style>
+    .form-signin { max-width: 330px; padding: 1rem; }
+    .form-signin .form-floating:focus-within { z-index: 2; }
+  </style>
+  
+  <div class="w-100 h-100 d-flex align-items-center py-4 bg-body-tertiary">
+    <main class="form-signin w-100 m-auto">
+      <form id="form-sign-in" class="needs-validation" novalidate>
+        <div class="p-3">
+          <center><i class="fa-solid fa-chess-rook fa-5x text-secondary"></i></center>
+        </div>
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+  
+        <div class="form-floating mb-3">
+          <input id="userInput" type="text" class="form-control" placeholder="User" value="admin" required> 
+          <label for="userInput">User</label>
+          <div class="invalid-feedback">Please enter a username.</div>
+        </div>
+        <div class="form-floating mb-3">
+          <input id="passwordInput" type="password" class="form-control" placeholder="Password" value="Rho2023" required>
+          <label for="passwordInput">Password</label>
+          <div class="invalid-feedback">Please enter a password.</div>
+        </div>
+        <button class="btn text-bg-secondary w-100 py-2" onclick="validateSignIn()">Sign in</button>
+        <div id="error-send" class="alert alert-danger d-none my-2 py-1" role="alert"> </div>
+        <p class="mt-5 mb-3 text-body-secondary">
+          <div><i>RhoEngine</i></div>
+          &copy; 2017–2026
+        </p>
+      </form>
+    </main>
+  </div>
+  
+  <!-- Validation for JavaScript -->
+  <script>
+    function validateSignIn() {
+      // We get the form to which we want to apply Bootstrap validation
+      let form = document.querySelector('#form-sign-in');
+      form.classList.add('was-validated'); // Avoid the spread event
+      if (form.checkValidity()) {
+        let data = {User: $('#userInput').val(), Password: $('#passwordInput').val()};
+        REST.getToken("/sample/login", data, PRHO.MapPages["sign-in"]);
+      }
+      return false;
+    }
+  </script>

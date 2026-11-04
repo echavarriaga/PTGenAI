@@ -1,0 +1,11 @@
+node_modules/
+*.log
+*.pid
+.env
+.env.*
+!.env.example
+rest2/rest/
+rest2/db/
+rest2/templates/_users_/
+.DS_Store
+Thumbs.db

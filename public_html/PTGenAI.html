@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Enrique Chavarriaga">
+  <title>Portable Programming GenAI Rho</title>
+
+  <!-- Portables CSS -->
+  <link href="fontawesome/css/fontawesome.min.css" rel="stylesheet">
+  <link href="fontawesome/css/brands.min.css" rel="stylesheet">
+  <link href="fontawesome/css/solid.min.css" rel="stylesheet">
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="main-app" class="vw-100 vh-100 overflow-auto" onclick="this.getAttribute('character')"> </div>
+
+
+  <!-- Libraries -->
+  <script type="text/javascript" src="bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="js/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript" src="js/handlebars-v4.7.8.js"></script>
+  <script type="text/javascript" src="js/chart.js"></script>
+  <script type="text/javascript" src="js/Rho2.js"></script>
+  <script type="text/javascript" src="js/RhoPortable.js"></script>
+  <script type="text/javascript">
+    REST.URL = "http://localhost:3000";
+    PRHO.initUser("system_programming");
+    PRHO.initApp("programming");
+    PRHO.init("samples", "programs/programming.json", "templates/programming");
+  </script>
+</body>
+</html>

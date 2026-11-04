@@ -1,0 +1,34 @@
+<div class="container py-3">
+  <header>
+    <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+      <a href="" class="d-flex align-items-center link-body-emphasis text-decoration-none" onclick="PRHO.openPage('page-main')">
+        <a href="" class="d-flex align-items-center link-body-emphasis text-decoration-none" >
+        <div class="p-1" onclick=""><i class="fa-solid fa-chess-rook fa-2x text-secondary"></i></div>
+        <span class="ms-2 fs-4 text-secondary fw-semibold">Portable Programming</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="sticky-top h3 bg-white p-3"><center><b>Employees List</b></center></div>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3 w-100 h-100">
+    {{#each Rows}}
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">{{this.NAME}}</h4>
+          <p class="card-text">
+              <div class="mb-2"><i class="{{this.ICON}} fa-lg"></i> {{this.POSITION}}</div>
+              <div><i>Salario</i>: {{this.SALARY}}</div>
+              <div><i>Ingreso</i>: {{this.STARTDATE}}</div>
+          </p>
+        </div>
+        <div class="card-footer d-flex">
+          <small class="text-body-secondary text-start flex-fill"><b>{{this.OFFICE}}</b></small>
+          <small class="text-body-secondary text-end flex-fill"><i>Oficina</i>: {{this.EXTENSION}}</small>
+        </div>
+      </div>
+    </div>
+    {{/each}} 
+  </div>
+
+</div>

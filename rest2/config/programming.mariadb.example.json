@@ -1,0 +1,278 @@
+{
+  "Name": "programming",
+  "Description": "It implements the basic operations for managing one or more databases.",
+  "Connector": "mariadb",
+  "EnableToken": false,
+  "Pool": {
+    "host": "127.0.0.1",
+    "user": "ptgenai",
+    "password": "YOUR_DATABASE_PASSWORD",
+    "database": "samplerestrho",
+    "connectionLimit": 5,
+    "port": 3306
+  },
+  "Registry": {
+    "Table": "user",
+    "User": "ALIAS",
+    "Password": "PASSWORD",
+    "ValidityMinutes": 20
+  },
+  "LLM": "Programming",
+  "Templates": {
+    "programming.user.table": {
+      "Dir": "programming/user",
+      "File": "table.html"
+    },
+    "programming.person.table": {
+      "Dir": "programming/person",
+      "File": "table.html"
+    },
+    "programming.person.edit": {
+      "Dir": "programming/person",
+      "File": "edit.html"
+    },
+    "programming.person.delete": {
+      "Dir": "programming/person",
+      "File": "delete.html"
+    },
+    "programming.person.pills": {
+      "Dir": "programming/person",
+      "File": "pills.html"
+    },
+    "programming.person.piesex": {
+      "Dir": "programming/person",
+      "File": "piesex.html"
+    },
+    "programming.employee.cards": {
+      "Dir": "programming/employee",
+      "File": "cards.html"
+    },
+    "programming.position.table": {
+      "Dir": "programming/position",
+      "File": "table.html"
+    }
+  },
+  "Tables": {
+    "user": {
+      "Encrypt": [
+        "PASSWORD"
+      ],
+      "Operations": {
+        "SelectTable": {
+          "Definition": "SelectAction",
+          "Action": "table",
+          "Clauses": {
+            "Fields": "ALIAS, NAME",
+            "OrderBy": "NAME asc"
+          },
+          "Transform": {
+            "Type": "Map",
+            "Field": "Rows"
+          },
+          "Template": "programming.user.table"
+        },
+        "Select": {
+          "Definition": "Select",
+          "Clauses": {
+            "key": "ALIAS"
+          }
+        }
+      }
+    },
+    "person": {
+      "Encrypt": [
+        "ID"
+      ],
+      "Decrypt": [
+        "key"
+      ],
+      "Uses": [
+        "SelectAll",
+        "Insert",
+        "Update",
+        "Delete",
+        "Select"
+      ],
+      "Operations": {
+        "SelectOver18": {
+          "Definition": "SelectAction",
+          "Action": "over18",
+          "Clauses": {
+            "Fields": "CONCAT(SURNAME, ' ',NAME) AS FULLNAME,AGE",
+            "Where": "AGE >= 18",
+            "OrderBy": "AGE,SURNAME ASC"
+          }
+        },
+        "SelectEdit": {
+          "Definition": "SelectAction",
+          "Action": "edit",
+          "Parameters": {
+            "query": [
+              "key"
+            ]
+          },
+          "Clauses": {
+            "Fields": "ID,NAME,SURNAME,AGE,SEX",
+            "Where": "ID = :key"
+          },
+          "Transform": {
+            "Type": "Position",
+            "Index": 0
+          },
+          "Template": "programming.person.edit"
+        },
+        "SelectDelete": {
+          "Definition": "SelectAction",
+          "Action": "delete",
+          "Parameters": {
+            "query": [
+              "key"
+            ]
+          },
+          "Clauses": {
+            "Fields": "ID,NAME,SURNAME",
+            "Where": "ID = :key"
+          },
+          "Transform": {
+            "Type": "Position",
+            "Index": 0
+          },
+          "Template": "programming.person.delete"
+        },
+        "SelectTable": {
+          "Definition": "SelectAction",
+          "Action": "table",
+          "Clauses": {
+            "Fields": "ID,NAME,SURNAME,AGE,SEX",
+            "OrderBy": "SURNAME asc"
+          },
+          "Transform": {
+            "Type": "Map",
+            "Field": "Rows"
+          },
+          "Template": "programming.person.table"
+        },
+        "SelectPillTemplate": {
+          "Definition": "SelectAction",
+          "Action": "pills",
+          "Clauses": {
+            "Fields": "NAME,SURNAME,AGE,SEX",
+            "OrderBy": "SURNAME asc"
+          },
+          "Transform": {
+            "Type": "Map",
+            "Field": "Rows"
+          },
+          "Template": "programming.person.pills"
+        },
+        "SelectChartPieSex": {
+          "Definition": "SelectAction",
+          "Action": "piesex",
+          "Clauses": {
+            "Fields": "SEX, count(*) AS TOTAL",
+            "GroupBy": "SEX",
+            "OrderBy": "SURNAME asc"
+          },
+          "Transform": {
+            "Type": "Map",
+            "Field": "Rows"
+          },
+          "Template": "programming.person.piesex"
+        }
+      }
+    },
+    "employee": {
+      "Encrypt": [
+        "ID"
+      ],
+      "Decrypt": [
+        "key"
+      ],
+      "Uses": [
+        "SelectAll",
+        "Insert",
+        "Update",
+        "Delete",
+        "Select"
+      ],
+      "Operations": {
+        "SelectJoin": {
+          "Definition": "SelectAction",
+          "Alias": "E",
+          "Action": "cards",
+          "Clauses": {
+            "Fields": "E.NAME, P.NAME AS POSITION, P.ICON, E.OFFICE, E.SALARY, E.EXTENSION, E.STARTDATE",
+            "OrderBy": "E.NAME",
+            "InnerJoin": {
+              "position P": "E.POSITION=P.ID"
+            }
+          },
+          "Transform": {
+            "Type": "Map",
+            "Field": "Rows"
+          },
+          "Template": "programming.employee.cards"
+        },
+        "SelectJoin2": {
+          "Definition": "SelectAction",
+          "Alias": "E",
+          "Action": "cards2",
+          "Clauses": {
+            "Fields": "E.NAME, P.NAME AS POSITION, P.ICON, E.OFFICE, E.SALARY, E.EXTENSION, E.STARTDATE",
+            "OrderBy": "E.NAME",
+            "InnerJoin": {
+              "position P": "E.POSITION=P.ID"
+            }
+          },
+          "Transform": {
+            "Type": "Map",
+            "Field": "Rows"
+          }
+        }
+      }
+    },
+    "position": {
+      "Uses": [
+        "SelectAll",
+        "Insert",
+        "Update",
+        "Delete",
+        "Select"
+      ],
+      "Operations": {
+        "SelectAllDescending": {
+          "Definition": "SelectAction",
+          "Action": "descending",
+          "Clauses": {
+            "Fields": "NAME,ICON",
+            "OrderBy": "NAME DESC"
+          },
+          "Transform": {
+            "Type": "Map",
+            "Field": "Rows"
+          },
+          "Template": "programming.position.table"
+        }
+      }
+    },
+    "metric": {
+      "Uses": [
+        "SelectAll",
+        "Insert",
+        "Update",
+        "Delete",
+        "Select"
+      ],
+      "Operations": {
+        "SelectAllDescending": {
+          "Definition": "SelectAction",
+          "Action": "programming.descending",
+          "Clauses": {
+            "Fields": "*",
+            "OrderBy": "PAGE, TIMESPAN DESC"
+          }
+        }
+      }
+    }
+  }
+}

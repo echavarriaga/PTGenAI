@@ -1,0 +1,28 @@
+<div id="deletePersonModal" class="modal fade" tabindex="-1" aria-labelledby="deletePersonLabel">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="deletePersonLabel" class="modal-title" >Delete Person</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body m-4">
+        Do you want to remove "<b>{{this.NAME}} {{this.SURNAME}}</b>" from the database?
+      </div>
+      <div class="modal-footer text-gray">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="deletePerson('{{this.ID}}');">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Validation for JavaScript -->
+<script>
+  function deletePerson(key) {
+    let done = (data, page) => {
+      $("body>div.modal-backdrop.show").remove();
+      PRHO.openPage('persons');
+    };
+    REST.delete(`/sample/person/${key}`, done);
+  }
+</script>
